@@ -16,13 +16,22 @@ export default function AdminDashboard() {
   const [priority, setPriority]         = useState('all');
   const [activeTab, setActiveTab]       = useState('complaints');
 
-  const load = async () => {
+ const load = async () => {
+  try {
     const [c, s, f, fs] = await Promise.all([
       API.get('/complaints'),
       API.get('/complaints/stats'),
       API.get('/feedback'),
       API.get('/feedback/stats'),
     ]);
+    setComplaints([...c.data]);
+    setStats({...s.data});
+    setFeedbacks([...f.data]);
+    setFeedbackStats({...fs.data});
+  } catch (err) {
+    console.log('Error loading:', err);
+  }
+};
     setComplaints(c.data);
     setStats(s.data);
     setFeedbacks(f.data);
