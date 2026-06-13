@@ -23,10 +23,13 @@ export default function ComplaintCard({ complaint, isAdmin, onRefresh, myFeedbac
   const alreadyRated = myFeedbacks?.some(f => f.complaint?._id === _id || f.complaint === _id);
 
   const updateStatus = async (newStatus) => {
+  try {
     await API.put(`/complaints/${_id}`, { status: newStatus });
     onRefresh();
-  };
-
+  } catch (err) {
+    console.log('Error updating status:', err);
+  }
+};
   const deleteComplaint = async () => {
     if (!window.confirm('Delete this complaint?')) return;
     await API.delete(`/complaints/${_id}`);
