@@ -31,11 +31,14 @@ export default function ComplaintCard({ complaint, isAdmin, onRefresh, myFeedbac
   }
 };
   const deleteComplaint = async () => {
-    if (!window.confirm('Delete this complaint?')) return;
+  if (!window.confirm('Delete this complaint?')) return;
+  try {
     await API.delete(`/complaints/${_id}`);
     onRefresh();
-  };
-
+  } catch (err) {
+    console.log('Error deleting:', err);
+  }
+};
   return (
     <>
       <div style={{...styles.card, borderLeft:`3px solid ${s.color}`}}>
